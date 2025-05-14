@@ -1,5 +1,3 @@
-import reactLogo from "./assets/react.svg";
-import appLogo from "/favicon.svg";
 import PWABadge from "./PWABadge.tsx";
 import "./App.css";
 
@@ -11,9 +9,11 @@ function App() {
     moveHandle: FileSystemDirectoryHandle,
     rootHandle: FileSystemDirectoryHandle
   ) => {
+    // @ts-expect-error: aads
     for await (const handle of dirHandle.values()) {
       if (handle.kind === "file") {
         const fileHandle = handle as FileSystemFileHandle;
+        // @ts-expect-error: aads
         await fileHandle.move(moveHandle);
       } else if (handle.kind === "directory") {
         if (handle.name === DONE) {
@@ -32,8 +32,9 @@ function App() {
   };
 
   const handleButtonPress = async () => {
+    // @ts-expect-error: aads
     const root = await self.showDirectoryPicker();
-    let moveHandle = await root.getDirectoryHandle(DONE, {
+    const moveHandle = await root.getDirectoryHandle(DONE, {
       create: true,
     });
     await readFiles(root, moveHandle, root);
